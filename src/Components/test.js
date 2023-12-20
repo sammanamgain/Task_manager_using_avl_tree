@@ -6,7 +6,7 @@ class AVLNode {
         this.completed = false;
         this.leftChild = null;
         this.rightChild = null;
-        this.height = 0; // Updated height initialization to 0
+        this.height = 0; 
     }
 }
 
@@ -32,11 +32,11 @@ class AVLTree {
         const x = y.leftChild;
         const T2 = x.rightChild;
 
-        // Perform rotation
+ 
         x.rightChild = y;
         y.leftChild = T2;
 
-        // Update heights
+    
         this.updateHeight(y);
         this.updateHeight(x);
 
@@ -47,11 +47,11 @@ class AVLTree {
         const y = x.rightChild;
         const T2 = y.leftChild;
 
-        // Perform rotation
+        
         y.leftChild = x;
         x.rightChild = T2;
 
-        // Update heights
+        
         this.updateHeight(x);
         this.updateHeight(y);
 
@@ -59,7 +59,7 @@ class AVLTree {
     }
 
     insertNode(node, newTask) {
-       // console.log("did Insertion triggered")
+      
         if (node === null) {
             return new AVLNode(newTask.name, newTask.priority, this.orderCounter++);
         }
@@ -70,26 +70,25 @@ class AVLTree {
             node.rightChild = this.insertNode(node.rightChild, newTask);
         }
     
-        // Update height of the current node
+        
         this.updateHeight(node);
     
-        // Get the balance factor to check if balancing is required
         const balance = this.balanceFactor(node);
     
-        // Left-Left Case
+        // LL
         if (balance > 1 && newTask.priority < node.leftChild.priority) {
             return this.rotateRight(node);
         }
-        // Right-Right Case
+        // RR
         if (balance < -1 && newTask.priority > node.rightChild.priority) {
             return this.rotateLeft(node);
         }
-        // Left-Right Case
+        // LR
         if (balance > 1 && newTask.priority > node.leftChild.priority) {
             node.leftChild = this.rotateLeft(node.leftChild);
             return this.rotateRight(node);
         }
-        // Right-Left Case
+        // RL
         if (balance < -1 && newTask.priority < node.rightChild.priority) {
             node.rightChild = this.rotateRight(node.rightChild);
             return this.rotateLeft(node);
@@ -103,7 +102,7 @@ class AVLTree {
         this.root = this.insertNode(this.root, newTask);
     }
 
-    // Traversal: In-order
+    
     inOrderTraversal(callback) {
         this.inOrderTraversalNode(this.root, callback);
     }
@@ -116,7 +115,7 @@ class AVLTree {
         }
     }
 
-    // Searching
+    
     findNodeByName(name) {
         return this.findNodeByNameNode(this.root, name);
     }
@@ -135,7 +134,7 @@ class AVLTree {
 
 
 
-    // Deletion
+    
     deleteNodeByName(name) {
         this.root = this.deleteNodeByNameNode(this.root, name);
     }
@@ -162,26 +161,26 @@ class AVLTree {
             node.rightChild = this.deleteNodeByNameNode(node.rightChild, node.name);
         }
 
-        // Update height of the current node
+        
         this.updateHeight(node);
 
-        // Get the balance factor to check if balancing is required
+
         const balance = this.balanceFactor(node);
 
-        // Left-Left Case
+        // LL
         if (balance > 1 && this.balanceFactor(node.leftChild) >= 0) {
             return this.rotateRight(node);
         }
-        // Right-Right Case
+        // RR
         if (balance < -1 && this.balanceFactor(node.rightChild) <= 0) {
             return this.rotateLeft(node);
         }
-        // Left-Right Case
+        // LR
         if (balance > 1 && this.balanceFactor(node.leftChild) < 0) {
             node.leftChild = this.rotateLeft(node.leftChild);
             return this.rotateRight(node);
         }
-        // Right-Left Case
+        // RL
         if (balance < -1 && this.balanceFactor(node.rightChild) > 0) {
             node.rightChild = this.rotateRight(node.rightChild);
             return this.rotateLeft(node);
@@ -198,7 +197,7 @@ class AVLTree {
         return current;
     }
 
-    // Display the tree
+    
     display() {
         this.displayNode(this.root, 0);
     }
@@ -212,56 +211,4 @@ class AVLTree {
     }
 }
 
-
 export default AVLTree
-// Example usage:
-
-// const avlTree = new AVLTree();
-
-// avlTree.insert({ name: "Complete assignment", priority: 2 });
-// avlTree.insert({ name: "Read a book", priority: 1 });
-// avlTree.insert({ name: "Go for a run", priority: 3 });
-// avlTree.insert({ name: "Go for a walk", priority: 3 });
-
-// // Display the tree
-// console.log("AVL Tree:");
-// avlTree.display();
-
-// // In-order traversal
-// console.log("\nIn-order Traversal:");
-// avlTree.inOrderTraversal((node) => {
-//     console.log(`${node.name} (Priority: ${node.priority}, Order: ${node.order}, Height: ${node.height})`);
-// });
-
-
-// Delete a node by name
-// const nodeNameToDelete = "Go for a run";
-// avlTree.deleteNodeByName(nodeNameToDelete);
-// console.log(`\nAfter deleting node with name ${nodeNameToDelete}:`);
-// avlTree.display();
-
-
-
-
-// let flag=0;
-// (
-// function(name)
-// {
-//     name="Go for a walk"
-
-//     avlTree.inOrderTraversal((node) => {
-
-//         if(node.name===name)
-//         {
-//             flag=1;
-//         console.log(`${node.name} (Priority: ${node.priority}, Order: ${node.order}, Height: ${node.height})`);
-//         }
-//     });
-    
-// })();
-
-// if(flag)
-// {
-//     console.log("found")
-// }
-
